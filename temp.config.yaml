@@ -1,0 +1,12 @@
+server:
+  port: 8080
+mysql:
+  host: "localhost"
+  port: 3306
+  dbName: "test"
+  username: "admin"
+  password: "admin@123"
+jwt:
+  exp: 3600
+  iss: "server"
+  signKey: "Pa1Q5saG90NueZf6XDyS9GUI"
