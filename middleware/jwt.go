@@ -77,7 +77,7 @@ func JWTAuth() gin.HandlerFunc {
 		// 获取请求头中的 token
 		token := c.Request.Header.Get("Token")
 		if token == "" {
-			resp.Result(resp.Unauthorized, "Not login or illegal request.", nil, c)
+			resp.Result(resp.Failed, "未登录或非法请求", nil, c)
 			c.Abort()
 			return
 		}
@@ -87,12 +87,12 @@ func JWTAuth() gin.HandlerFunc {
 		claims, err := j.ParseToken(token)
 		if err != nil {
 			if err == TokenExpired {
-				resp.Result(resp.Unauthorized, "Token expired, please login again.", nil, c)
+				resp.Result(resp.Failed, "认证过期，请重新登录", nil, c)
 				c.Abort()
 				return
 			}
 			// 其它错误
-			resp.Result(resp.Error, err.Error(), nil, c)
+			resp.Result(resp.Failed, err.Error(), nil, c)
 			c.Abort()
 			return
 		}

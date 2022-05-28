@@ -12,10 +12,8 @@ type Response struct {
 }
 
 const (
-	Error        = -1  // 失败
-	Success      = 0   // 成功
-	Unauthorized = 101 // 未认证
-	NotFound     = 200 // 未查询到相关数据
+	Success = 0  // 成功
+	Failed  = -1 // 失败
 )
 
 func Result(code int, msg string, data interface{}, c *gin.Context) {

@@ -11,7 +11,7 @@ func main() {
 	// 初始化配置文件
 	global.Viper = initialize.Viper()
 	// 初始化数据库
-	//global.DB = initialize.Gorm()
+	global.DB = initialize.Gorm()
 	// 注册路由
 	routers := initialize.Routers()
 	if err := routers.Run(":" + global.CONFIG.Server.Port); err != nil {

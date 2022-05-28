@@ -25,7 +25,7 @@ func Login(c *gin.Context) {
 		createToken(c, user)
 		return
 	}
-	resp.Result(resp.Unauthorized, "Login failed, please check username or password.", nil, c)
+	resp.Result(resp.Failed, "用户名或密码无效", nil, c)
 }
 
 // createToken 创建Token
@@ -45,7 +45,7 @@ func createToken(c *gin.Context, user models.User) {
 	// 生成Token
 	token, err := j.GenerateToken(claims)
 	if err != nil {
-		resp.Result(resp.Error, err.Error(), nil, c)
+		resp.Result(resp.Failed, err.Error(), nil, c)
 		return
 	}
 	// 封装一个响应数据,返回用户名与Token
@@ -53,5 +53,5 @@ func createToken(c *gin.Context, user models.User) {
 		Username: user.Username,
 		Token:    token,
 	}
-	resp.Result(resp.Success, "Login success", data, c)
+	resp.Result(resp.Success, "登录成功", data, c)
 }
