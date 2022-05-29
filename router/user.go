@@ -3,11 +3,12 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	v1 "server/api/v1"
+	"server/middleware"
 )
 
 func InitUserRouter(Router *gin.RouterGroup) {
 	UserRouter := Router.Group("user")
-	// UserRouter.Use(middleware.JWTAuth())
+	UserRouter.Use(middleware.JWTAuth())
 	{
 		UserRouter.GET("/:id", v1.QueryUser)
 		UserRouter.GET("/list", v1.QueryUserList)

@@ -27,7 +27,7 @@ func Register(c *gin.Context) {
 		resp.Result(resp.Failed, fmt.Sprintf("注册失败：%s", err.Error()), nil, c)
 		return
 	}
-	resp.Result(resp.Success, "注册成功", nil, c)
+	resp.Result(resp.Succeed, "注册成功", nil, c)
 }
 
 // DeleteUser 删除用户
@@ -37,7 +37,7 @@ func DeleteUser(c *gin.Context) {
 		resp.Result(resp.Failed, fmt.Sprintf("用户删除失败：%s", err.Error()), nil, c)
 		return
 	}
-	resp.Result(resp.Success, "用户删除成功", nil, c)
+	resp.Result(resp.Succeed, "用户删除成功", nil, c)
 }
 
 // UpdateUser 更新用户
@@ -64,5 +64,5 @@ func QueryUserList(c *gin.Context) {
 		TotalRows: totalRows,
 		Data:      userList,
 	}
-	resp.Result(resp.Success, "", data, c)
+	resp.Result(resp.Succeed, "", data, c)
 }

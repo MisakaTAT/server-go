@@ -17,7 +17,7 @@ import (
 func Login(c *gin.Context) {
 	loginRequest := structs.LoginRequest{}
 	if err := c.ShouldBindJSON(&loginRequest); err != nil {
-		resp.Result(resp.Success, utils.Translate(err), nil, c)
+		resp.Result(resp.Succeed, utils.Translate(err), nil, c)
 		return
 	}
 	// 账号密码检查
@@ -53,5 +53,5 @@ func createToken(c *gin.Context, user models.User) {
 		Username: user.Username,
 		Token:    token,
 	}
-	resp.Result(resp.Success, "登录成功", data, c)
+	resp.Result(resp.Succeed, "登录成功", data, c)
 }

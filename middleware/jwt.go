@@ -11,10 +11,10 @@ import (
 )
 
 var (
-	TokenInvalid     = errors.New("token invalid")
-	TokenExpired     = errors.New("token expired")
-	TokenMalformed   = errors.New("token malformed")
-	TokenNotValidYet = errors.New("token not valid yet")
+	TokenInvalid     = errors.New("令牌无效")
+	TokenExpired     = errors.New("令牌过期")
+	TokenMalformed   = errors.New("令牌格式非法")
+	TokenNotValidYet = errors.New("令牌未生效")
 )
 
 // JWT 定义JWT对象
@@ -86,13 +86,7 @@ func JWTAuth() gin.HandlerFunc {
 		// 解析 token 中包含的相关信息 (有效载荷)
 		claims, err := j.ParseToken(token)
 		if err != nil {
-			if err == TokenExpired {
-				resp.Result(resp.Failed, "认证过期，请重新登录", nil, c)
-				c.Abort()
-				return
-			}
-			// 其它错误
-			resp.Result(resp.Failed, err.Error(), nil, c)
+			resp.Result(resp.Unauthorized, err.Error(), nil, c)
 			c.Abort()
 			return
 		}
