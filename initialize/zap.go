@@ -15,8 +15,8 @@ const (
 	ErrLogPath  = "./logs/error.log"
 )
 
+// Zap 初始化日志库
 func Zap() *zap.SugaredLogger {
-	// Zap 配置
 	config := zapcore.EncoderConfig{
 		MessageKey:   "msg",
 		LevelKey:     "level",
@@ -54,6 +54,7 @@ func Zap() *zap.SugaredLogger {
 	return zap.New(core, zap.AddCaller(), zap.AddStacktrace(zap.WarnLevel)).Sugar()
 }
 
+// writer 配置日志输出
 func writer(filename string) io.Writer {
 	hook, err := rotateLogs.New(
 		filename+".%Y-%m-%d-%H",
@@ -62,7 +63,7 @@ func writer(filename string) io.Writer {
 		rotateLogs.WithRotationTime(time.Hour),
 	)
 	if err != nil {
-		panic(fmt.Errorf("RotateLogs error: %v", err))
+		panic(fmt.Errorf("log lib init failed: %v", err))
 	}
 	return hook
 }

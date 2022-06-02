@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"fmt"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 	"server/global"
@@ -14,20 +15,20 @@ func Viper() *viper.Viper {
 	v.SetConfigFile(defaultConfigFile)
 
 	if err := v.ReadInConfig(); err != nil {
-		global.Zap.Panicf("Fatal error config file: %v", err)
+		panic(fmt.Errorf("viper init failed: %v", err))
 	}
 
 	v.WatchConfig()
 
 	v.OnConfigChange(func(e fsnotify.Event) {
-		global.Zap.Infof("Config file changed: %s", e.Name)
+		global.Zap.Infof("config file changed: %s", e.Name)
 		if err := v.Unmarshal(&global.CONFIG); err != nil {
-			global.Zap.Errorf("Config unmarshal failed: %v", err)
+			global.Zap.Errorf("config unmarshal failed: %v", err)
 		}
 	})
 
 	if err := v.Unmarshal(&global.CONFIG); err != nil {
-		global.Zap.Errorf("Config unmarshal failed: %v", err)
+		global.Zap.Errorf("config unmarshal failed: %v", err)
 	}
 
 	return v

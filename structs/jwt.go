@@ -1,10 +1,12 @@
 package structs
 
-import "github.com/dgrijalva/jwt-go"
+import (
+	"github.com/dgrijalva/jwt-go"
+	uuid "github.com/satori/go.uuid"
+)
 
 // CustomClaims 自定义声明
 type CustomClaims struct {
-	UserID   uint
-	Username string
+	UUID uuid.UUID
 	jwt.StandardClaims
 }

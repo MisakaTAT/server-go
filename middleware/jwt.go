@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"server/common/resp"
+	uuid "github.com/satori/go.uuid"
 	"server/global"
 	"server/structs"
+	"server/utils"
 )
 
 var (
@@ -77,7 +78,7 @@ func JWTAuth() gin.HandlerFunc {
 		// 获取请求头中的 Token
 		token := c.Request.Header.Get("X-Token")
 		if token == "" {
-			resp.Result(resp.Failed, "未登录或非法请求", nil, c)
+			utils.Result(utils.Failed, "未登录或非法请求", nil, c)
 			c.Abort()
 			return
 		}
@@ -86,7 +87,7 @@ func JWTAuth() gin.HandlerFunc {
 		// 解析 Token 中包含的相关信息 (有效载荷)
 		claims, err := j.ParseToken(token)
 		if err != nil {
-			resp.Result(resp.Unauthorized, err.Error(), nil, c)
+			utils.Result(utils.Unauthorized, err.Error(), nil, c)
 			c.Abort()
 			return
 		}
@@ -96,14 +97,8 @@ func JWTAuth() gin.HandlerFunc {
 	}
 }
 
-// GetUserName 从 Token 中解析 Username
-func GetUserName(c *gin.Context) string {
+// ParseUUID 从 Token 中解析 UUID
+func ParseUUID(c *gin.Context) uuid.UUID {
 	claims, _ := c.Get("claims")
-	return claims.(*structs.CustomClaims).Username
-}
-
-// GetUserID 从 Token 中解析 UserID
-func GetUserID(c *gin.Context) uint {
-	claims, _ := c.Get("claims")
-	return claims.(*structs.CustomClaims).UserID
+	return claims.(*structs.CustomClaims).UUID
 }
