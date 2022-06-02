@@ -5,6 +5,7 @@ import (
 	"golang.org/x/crypto/scrypt"
 )
 
+// ScryptPassword 密码加密
 func ScryptPassword(password string) (string, error) {
 	salt := make([]byte, 8)
 	salt = []byte{23, 54, 69, 21, 78, 37, 11, 5}

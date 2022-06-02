@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Response 响应结构
 type Response struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`

@@ -21,6 +21,7 @@ func init() {
 	_ = translation.RegisterDefaultTranslations(validate, trans)
 }
 
+// Translate 错误信息本地化
 func Translate(err error) string {
 	var result string
 	errors := err.(validator.ValidationErrors)

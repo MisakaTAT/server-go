@@ -15,7 +15,7 @@ import (
 
 // Login 登陆
 func Login(c *gin.Context) {
-	loginRequest := structs.LoginRequest{}
+	loginRequest := structs.LoginReq{}
 	if err := c.ShouldBindJSON(&loginRequest); err != nil {
 		resp.Result(resp.Succeed, utils.Translate(err), nil, c)
 		return
@@ -28,11 +28,11 @@ func Login(c *gin.Context) {
 	resp.Result(resp.Failed, "用户名或密码无效", nil, c)
 }
 
-// createToken 创建Token
+// createToken 创建 Token
 func createToken(c *gin.Context, user models.User) {
-	// 构造SignKey,签名和解签名需要使用同一个值
+	// 构造 SignKey 签名和解签名需要使用同一个值
 	j := middleware.NewJWT()
-	// 创建claims
+	// 创建 claims
 	claims := structs.CustomClaims{
 		UserID:   user.ID,
 		Username: user.Username,
@@ -42,16 +42,15 @@ func createToken(c *gin.Context, user models.User) {
 			Issuer:    global.CONFIG.Jwt.Iss,                     // 签发人
 		},
 	}
-	// 生成Token
+	// 生成 Token
 	token, err := j.GenerateToken(claims)
 	if err != nil {
 		resp.Result(resp.Failed, err.Error(), nil, c)
 		return
 	}
-	// 封装一个响应数据,返回用户名与Token
-	data := structs.LoginResult{
-		Username: user.Username,
-		Token:    token,
+	// 封装一个响应数据，返回 Username 与 Token
+	data := structs.LoginResp{
+		Token: token,
 	}
 	resp.Result(resp.Succeed, "登录成功", data, c)
 }

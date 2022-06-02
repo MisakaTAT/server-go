@@ -1,5 +1,6 @@
 package config
 
+// Mysql 配置文件结构体
 type Mysql struct {
 	Host     string `yaml:"host"`
 	Port     string `yaml:"port"`
