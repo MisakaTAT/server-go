@@ -20,13 +20,7 @@ func Login(c *gin.Context) {
 		return
 	}
 	// 账号密码检查
-	user, ok, err := service.LoginCheck(loginRequest.Username, loginRequest.Password)
-	if err != nil {
-		global.Zap.Errorf("数据库查询失败：%v", err)
-		utils.Result(utils.Failed, "内部错误", nil, c)
-		return
-	}
-	if ok {
+	if user, ok := service.LoginCheck(loginRequest.Username, loginRequest.Password); ok {
 		createToken(c, user)
 		return
 	}
