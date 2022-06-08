@@ -50,3 +50,7 @@ func Fail(c *gin.Context) {
 func FailWithMsg(msg string, c *gin.Context) {
 	result(fail, msg, nil, c)
 }
+
+func FailWithDetailed(msg string, data interface{}, c *gin.Context) {
+	result(fail, msg, data, c)
+}
