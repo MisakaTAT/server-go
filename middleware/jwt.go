@@ -78,7 +78,7 @@ func JWTAuth() gin.HandlerFunc {
 		// 获取请求头中的 Token
 		token := c.Request.Header.Get("X-Token")
 		if token == "" {
-			utils.Result(utils.Failed, "未登录或非法请求", nil, c)
+			utils.FailWithMsg("未登录或非法请求", c)
 			c.Abort()
 			return
 		}
@@ -87,7 +87,8 @@ func JWTAuth() gin.HandlerFunc {
 		// 解析 Token 中包含的相关信息 (有效载荷)
 		claims, err := j.ParseToken(token)
 		if err != nil {
-			utils.Result(utils.Unauthorized, err.Error(), nil, c)
+			utils.FailWithMsg("令牌解析失败", c)
+			global.Zap.Errorf("token parse failed: %v", err)
 			c.Abort()
 			return
 		}

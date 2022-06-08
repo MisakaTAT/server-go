@@ -16,7 +16,7 @@ import (
 func Login(c *gin.Context) {
 	loginRequest := structs.LoginReq{}
 	if err := c.ShouldBindJSON(&loginRequest); err != nil {
-		utils.Result(utils.Succeed, utils.Translate(err), nil, c)
+		utils.FailWithMsg(utils.Translate(err), c)
 		return
 	}
 	// 账号密码检查
@@ -24,7 +24,7 @@ func Login(c *gin.Context) {
 		createToken(c, user)
 		return
 	}
-	utils.Result(utils.Failed, "用户名或密码无效", nil, c)
+	utils.FailWithMsg("用户名或密码无效", c)
 }
 
 // createToken 创建 Token
@@ -43,12 +43,12 @@ func createToken(c *gin.Context, user models.User) {
 	// 生成 Token
 	token, err := j.GenerateToken(claims)
 	if err != nil {
-		utils.Result(utils.Failed, err.Error(), nil, c)
+		utils.FailWithMsg("令牌生成失败", c)
+		global.Zap.Errorf("token generate failed: %v", err)
 		return
 	}
-	// 封装一个响应数据，返回 Username 与 Token
 	data := structs.LoginResp{
 		Token: token,
 	}
-	utils.Result(utils.Succeed, "登录成功", data, c)
+	utils.OkWithDetailed("登录成功", data, c)
 }

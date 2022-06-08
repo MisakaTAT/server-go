@@ -6,22 +6,47 @@ import (
 )
 
 // Response 响应结构
-type Response struct {
+type response struct {
 	Code int         `json:"code"`
 	Msg  string      `json:"msg"`
 	Data interface{} `json:"data"`
 }
 
 const (
-	Succeed      = 0   // 成功
-	Failed       = -1  // 失败
-	Unauthorized = 101 // 未授权
+	ok      = 0
+	fail    = -1
+	okMsg   = "ok"
+	failMsg = "fail"
 )
 
-func Result(code int, msg string, data interface{}, c *gin.Context) {
-	c.JSON(http.StatusOK, Response{
+func result(code int, msg string, data interface{}, c *gin.Context) {
+	c.JSON(http.StatusOK, response{
 		code,
 		msg,
 		data,
 	})
+}
+
+func Ok(c *gin.Context) {
+	result(ok, okMsg, nil, c)
+}
+
+func OkWithMsg(msg string, c *gin.Context) {
+	result(ok, msg, nil, c)
+}
+
+func OkWithData(data interface{}, c *gin.Context) {
+	result(ok, okMsg, data, c)
+}
+
+func OkWithDetailed(msg string, data interface{}, c *gin.Context) {
+	result(ok, msg, data, c)
+}
+
+func Fail(c *gin.Context) {
+	result(fail, failMsg, nil, c)
+}
+
+func FailWithMsg(msg string, c *gin.Context) {
+	result(fail, msg, nil, c)
 }
