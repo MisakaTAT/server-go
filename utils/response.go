@@ -13,10 +13,8 @@ type response struct {
 }
 
 const (
-	ok      = 0
-	fail    = -1
-	okMsg   = "ok"
-	failMsg = "fail"
+	ok   = 0
+	fail = -1
 )
 
 func result(code int, msg string, data interface{}, c *gin.Context) {
@@ -28,7 +26,7 @@ func result(code int, msg string, data interface{}, c *gin.Context) {
 }
 
 func Ok(c *gin.Context) {
-	result(ok, okMsg, nil, c)
+	result(ok, "", nil, c)
 }
 
 func OkWithMsg(msg string, c *gin.Context) {
@@ -36,7 +34,7 @@ func OkWithMsg(msg string, c *gin.Context) {
 }
 
 func OkWithData(data interface{}, c *gin.Context) {
-	result(ok, okMsg, data, c)
+	result(ok, "", data, c)
 }
 
 func OkWithDetailed(msg string, data interface{}, c *gin.Context) {
@@ -44,7 +42,7 @@ func OkWithDetailed(msg string, data interface{}, c *gin.Context) {
 }
 
 func Fail(c *gin.Context) {
-	result(fail, failMsg, nil, c)
+	result(fail, "", nil, c)
 }
 
 func FailWithMsg(msg string, c *gin.Context) {
