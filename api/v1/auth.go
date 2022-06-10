@@ -44,7 +44,7 @@ func createToken(c *gin.Context, user models.User) {
 	token, err := j.GenerateToken(claims)
 	if err != nil {
 		utils.FailWithMsg("令牌生成失败", c)
-		global.Zap.Errorf("token generate failed: %v", err)
+		global.ZAP.Errorf("token generate failed: %v", err)
 		return
 	}
 	data := structs.LoginResp{

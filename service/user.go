@@ -2,6 +2,7 @@ package service
 
 import (
 	uuid "github.com/satori/go.uuid"
+	"gorm.io/gorm"
 	"server/global"
 	"server/models"
 	"server/structs"
@@ -9,20 +10,19 @@ import (
 
 // Register 用户注册
 func Register(user *models.User) error {
-	if err := global.DB.Create(&user).Error; err != nil {
-		return err
-	}
-	return nil
+	return global.DB.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&user).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 }
 
 // HasRegister 检查用户是否存在
 func HasRegister(username string) bool {
 	var user models.User
 	global.DB.Where("username = ?", username).First(&user)
-	if user.UUID != uuid.Nil {
-		return true
-	}
-	return false
+	return user.UUID != uuid.Nil
 }
 
 // GetUserInfo 获取用户信息

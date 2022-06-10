@@ -25,7 +25,7 @@ func Register(c *gin.Context) {
 	// 添加用户到数据库
 	if err := service.Register(&user); err != nil {
 		utils.FailWithMsg("注册失败", c)
-		global.Zap.Errorf("user register failed: %v", err)
+		global.ZAP.Errorf("user register failed: %v", err)
 		return
 	}
 	utils.OkWithMsg("注册成功", c)

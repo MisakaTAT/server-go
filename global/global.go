@@ -8,6 +8,6 @@ import (
 
 var (
 	DB     *gorm.DB
-	Zap    *zap.SugaredLogger
+	ZAP    *zap.SugaredLogger
 	CONFIG *config.Config
 )

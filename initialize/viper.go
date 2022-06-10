@@ -21,14 +21,14 @@ func Viper() *viper.Viper {
 	v.WatchConfig()
 
 	v.OnConfigChange(func(e fsnotify.Event) {
-		global.Zap.Infof("config file changed: %s", e.Name)
+		global.ZAP.Infof("config file changed: %s", e.Name)
 		if err := v.Unmarshal(&global.CONFIG); err != nil {
-			global.Zap.Errorf("config unmarshal failed: %v", err)
+			global.ZAP.Errorf("config unmarshal failed: %v", err)
 		}
 	})
 
 	if err := v.Unmarshal(&global.CONFIG); err != nil {
-		global.Zap.Errorf("config unmarshal failed: %v", err)
+		global.ZAP.Errorf("config unmarshal failed: %v", err)
 	}
 
 	return v

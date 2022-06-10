@@ -10,7 +10,7 @@ func main() {
 	// 初始化配置文件
 	initialize.Viper()
 	// 初始化日志库
-	global.Zap = initialize.Zap()
+	global.ZAP = initialize.Zap()
 	// 初始化数据库
 	global.DB = initialize.Gorm()
 	// 注册路由
